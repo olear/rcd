@@ -2,7 +2,7 @@
 #
 # Run pkgsrc scripts in /etc/rc.d with rcorder.
 #
-# chkconfig: 345 95 20
+# chkconfig: - 95 20
 # description: NetBSD rc.d
 
 if [ -e ./rc.subr ] ; then
@@ -15,26 +15,23 @@ _rc_conf_loaded=true
 
 scripts=$(for rcd in /etc/rc.d/*; do if [ "$rcd" != "/etc/rc.d/rc" ] && [ "$rcd" != "/etc/rc.d/rc.sysinit" ] && [ "$rcd" != "/etc/rc.d/rc.local" ];then echo ${rcd} ;fi;done)
 
-if ! checkyesno rc_configured; then
-        echo "/etc/rc.conf is not configured.  Service aborted."
-        exit 1
-fi
-
 RETVAL=0
 prog="rcd"
 servicename=$prog
 
 start() {
+echo "Starting pkgsrc services: "
 files=$(rcorder -s nostart ${rc_rcorder_flags} ${scripts})
 for _rc_elem in $files; do
-       run_rc_script $_rc_elem start
+       run_rc_script $_rc_elem start 2> /dev/null
 done
 }
 
 stop() {
+echo "Stopping pkgsrc services: "
 files=$(rcorder ${rc_rcorder_flags} ${scripts}|tac)
 for _rc_elem in $files; do
-       run_rc_script $_rc_elem stop
+       run_rc_script $_rc_elem stop 2> /dev/null
 done
 }
 

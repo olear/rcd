@@ -1,8 +1,8 @@
 Summary: NetBSD rc.d system
 Name: rcd
 
-Version: 20140525.2
-Release: 3%{dist}
+Version: 201405252
+Release: 1%{dist}
 License: BSD
 
 Group: System Environment/Base
