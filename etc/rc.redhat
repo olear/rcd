@@ -32,9 +32,9 @@ done
 }
 
 stop() {
-files=$(rcorder -k shutdown ${rc_rcorder_flags} ${scripts})
+files=$(rcorder ${rc_rcorder_flags} ${scripts}|tac)
 for _rc_elem in $files; do
-       run_rc_script $_rc_elem start
+       run_rc_script $_rc_elem stop
 done
 }
 
